@@ -1,0 +1,71 @@
+Customer and Orders System API Documentation;
+
+
+/api/customer ->/create :  Tanım:	Sisteme yeni bir müşteri tanımlar.
+			   Post Request Body:
+					{ "cid" : intIdValue,
+					  "name": "StringValue",
+					  "password": "StringValue",
+					  "orderpermission": true or false
+					}
+		
+			   Parameter:	Customer object
+			   Return Type: Void
+			   
+
+	      ->/update :  Tanım:	Sistemde mevcut bir müşterinin bilgilerini günceller.
+			   Post Request Body:
+					{ "cid" : intIdValue,
+					  "name": "StringValue",
+					  "password": "StringValue",
+					  "orderpermission": true or false
+					}
+			   Parameter:	Customer object
+			   Return Type: Void
+
+	      ->/delete :  Tanım:	Sistemdeki mevcut bir müşteri kaldırır.
+			   Post Request Body:
+					{ "cid": kaldırmakIstenilenCustId }
+			   Parameter:	Customer object
+			   Return Type:	Void
+
+	      ->/get	:  Tanım:	Sistemde tanımlı olan tüm müşterileri listeler.
+			   Get Request 
+			   Parameter:	No parameter
+			   Return Type:	List<Customer>
+
+	      ->/get/{id}: Tanım:	id bilgisi verilen müşterinin bilgilerini listeler.
+			   Get Request
+			   Parameter:	Path Variable {id}
+			   Return Type: Customer object	
+
+
+
+/api/order    ->/create:   Tanım:	Sistemde bulunan ve yetki sahibi bir müşterinin siparişini tanımlar.
+			   Post Request Body:
+					{ "oid": intOrderId,
+					  "cid": intCustomerId,
+					  "products": "String JSON"
+					}
+			   Parameter:	Order object
+			   Return Type:	Void
+
+	      ->/update:   Tanım:	Mevcut bir siparişin bilgilerini günceller.
+			   Post Request Body:
+					{ "oid": intOrderId,
+					  "cid": intCustomerId,
+					  "products": "String JSON"
+					}
+			   Parameter:	Order object
+			   Return Type:	Void
+
+	      ->/get:	   Tanım:	Sistemde tanımlı tüm siparişleri listeler.
+			   Get Request
+			   Parameter:	No parameter
+			   Return Type: List<Order>
+
+	      ->/get/{id}  Tanım:	id bilgisi verilen siparişin bilgilerini listeler.
+			   Get Request
+			   Parameter:	Path Variable {id}
+			   Return Type:	Order object
+						
