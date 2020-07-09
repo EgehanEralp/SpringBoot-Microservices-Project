@@ -2,25 +2,28 @@ package com.smartera.odev.Service;
 
 import java.util.List;
 
+import com.smartera.odev.Entities.Customer;
+import com.smartera.odev.client.ICustomerClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.smartera.odev.Dao.ICustomerDao;
+
 import com.smartera.odev.Dao.IOrderDao;
 import com.smartera.odev.Entities.Order;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class OrderService implements IOrderService{
 
 	
 	IOrderDao orderDao;
-	ICustomerDao customerDao;
+
+	//ICustomerClient customerClient;
 	
 	@Autowired
-	public OrderService(IOrderDao orderDao, ICustomerDao customerDao) {
+	public OrderService(IOrderDao orderDao) {
 		this.orderDao = orderDao;
-		this.customerDao = customerDao;
 	}
 
 	public OrderService() {}
@@ -28,7 +31,38 @@ public class OrderService implements IOrderService{
 	@Override
 	@Transactional
 	public void create(Order order) throws Exception {
-		
+
+		//List<Customer> customerList = customerClient.getCustomers();
+		//Customer customer= customerClient.getCustomerById(order.getCid());
+
+		RestTemplate restTemplate = new RestTemplate();
+		Customer customer = restTemplate.getForObject("http://localhost:5000/api/customer/get/"+order.getCid(), Customer.class);
+
+		if(customer != null){
+			if(customer.isOrderpermission()){
+				orderDao.create(order);
+			}
+			else{
+				throw new Exception("There is no permission");
+			}
+		}
+		else{
+			throw new Exception("Unmatching customer id");
+		}
+
+		/*
+		if(orderDao.getByCustomerId(order.getCid())!=null){
+
+			if(customer.isOrderpermission()){
+				orderDao.create(order);
+			}else{
+				throw new Exception("There is no permission.");
+			}
+		}else{
+			throw new Exception("Unmatching customer id.");
+		}
+
+
 		if(customerDao.getById(order.getCid())!=null) {
 			
 			if((customerDao.getById(order.getCid())).isOrderpermission()) {
@@ -41,11 +75,45 @@ public class OrderService implements IOrderService{
 		else {
 			throw new Exception("Unmatching customer id.");
 		}
+		*/
+
 	}
 
 	@Override
 	@Transactional
 	public void update(Order order) throws Exception {
+
+		RestTemplate restTemplate = new RestTemplate();
+		Customer customer = restTemplate.getForObject("http://localhost:5000/api/customer/get/"+order.getCid(), Customer.class);
+
+		if(customer != null){
+			if(customer.isOrderpermission()){
+				orderDao.update(order);
+			}
+			else{
+				throw new Exception("There is no permission");
+			}
+		}
+		else{
+			throw new Exception("Unmatching customer id");
+		}
+
+		/*
+		Customer customer= customerClient.getCustomerById(order.getCid());
+
+		if(orderDao.getByCustomerId(order.getCid())!=null){
+
+			if(customer.isOrderpermission()){
+				orderDao.update(order);
+			}else{
+				throw new Exception("There is no permission.");
+			}
+		}else{
+			throw new Exception("Unmatching customer id.");
+		}
+
+
+
 		if(customerDao.getById(order.getCid())!=null) {
 			
 			if((customerDao.getById(order.getCid())).isOrderpermission()) {
@@ -58,6 +126,7 @@ public class OrderService implements IOrderService{
 		else {
 			throw new Exception("Unmatching customer id.");
 		}
+		 */
 		
 	}
 

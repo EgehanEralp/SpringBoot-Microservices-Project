@@ -1,0 +1,7 @@
+feign:
+  client:
+    config:
+      odev-Customer:
+        connectTimeout: 10000
+        readTimeout: 10000
+        loggerLevel: basic

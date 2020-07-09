@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 
-
+import java.beans.IntrospectionException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,6 +30,9 @@ import com.smartera.odev.Entities.Customer;
 @SpringBootTest
 public class OdevApplicationCustomerServiceTest {
 
+	
+	
+	
 	//for service test
 	@Autowired
 	private CustomerService customerService; //test cases for Service Layer methods
@@ -35,6 +40,8 @@ public class OdevApplicationCustomerServiceTest {
 	//for dao test
 	@MockBean
 	private CustomerDAO customerDao; //sahte nesne (mock nesnesi) oluşturdum. Methodlar DB ile bağımsız kontrol edilir.
+
+
 	
 	
 	
@@ -65,11 +72,31 @@ public class OdevApplicationCustomerServiceTest {
 	
 	
 	@Test 
-	public void createCustomerTest() {
-		Customer customer = new Customer(999,"asdasd","lol",true);
-		customerService.create(customer); //service deki create çağrıldığında 
+	public void createCustomerTest() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchFieldException, SecurityException, IntrospectionException {
+		//Customer customer = new Customer(999,"asdasd","lol",true);
 		
-		verify(customerDao,Mockito.times(1)).create(customer);//deo daki delete methodu da çağrıldı mı?
+		//customer2 = CustomerTestData.getCustomer();
+		
+		CustomerTestData data=new CustomerTestData();
+		
+		Customer cust2= (Customer) data.getMoneyTransferWithObject(); //yeni eklediğim sınıf
+		
+		System.out.println(cust2.getCid()+"\t"+cust2.getName()+"\t"+cust2.getPassword()+"\t"+cust2.isOrderpermission()); // 0 null null
+		
+		
+		//String str=data.getfieldinfo();
+		//System.out.println(str);
+		//----
+		//String string=data.getmethodinfo();
+		//System.out.println(string);
+		
+		//Method[] meshods= method1();
+		
+		//System.out.println(meshods);
+		
+		customerService.create(cust2); //service deki create çağrıldığında 
+		
+		verify(customerDao,Mockito.times(1)).create(cust2);//deo daki delete methodu da çağrıldı mı?
 	  
 	  }
 	 

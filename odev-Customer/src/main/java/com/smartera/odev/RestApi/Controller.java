@@ -37,6 +37,8 @@ public class Controller {
 	@PostMapping("/customer/create")
 	public void cr(@RequestBody Customer customer) {
 		customerService.create(customer);
+		
+		
 	}
 	
 	@PostMapping("/customer/update")

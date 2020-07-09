@@ -23,7 +23,8 @@ public class OdevApplicationDBTest {
 	
 	@Autowired
 	MockMvc mockMvc;
-	
+
+	/*
 	@Test
 	public void databaseAccessTest() throws Exception {
 		
@@ -34,6 +35,6 @@ public class OdevApplicationDBTest {
 
 		System.out.println(mvcResult.getResponse().getContentAsString());	
 	}
-	
+	*/
 
 }

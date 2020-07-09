@@ -62,7 +62,7 @@ public class Controller {
 	public String doc() {
 		String doc = "";
 		try { 
-			doc = new String(Files.readAllBytes(Paths.get("/Users/egehaneralp/eclipse-workspace/odev-Order/src/main/resources/static/documentation.txt"))); 
+			doc = new String(Files.readAllBytes(Paths.get("/Users/egehaneralp/git/repoSmarteraProject/odev-Order/src/main/resources/static/documentation.txt"))); 
 		} catch (IOException e) {
 			e.printStackTrace(); 
 		} 
